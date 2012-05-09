@@ -11,12 +11,14 @@ com.def {
   {'IMyInterface';
     methods = {
       {'NormalMethod', 'int param1, int param2, int param3'};
-      {ret='void', 'MethodWithCustomReturnType'}; -- if not defined, the return type is int/HRESULT
+      -- if 'ret' is not defined, the return type is int/HRESULT
+      {ret='void', 'MethodWithCustomReturnType'};
     };
     iid = "00000000-0000-0000-0000000000000001";
   };
 
-  {'IExtendedInterface', inherits='IMyInterface'; -- if not defined, the interface inherits from IUnknown
+  -- if 'inherits' is not defined, the interface inherits from IUnknown
+  {'IExtendedInterface', inherits='IMyInterface';
     methods = {
       {'ExtendedMethod'};
     };
