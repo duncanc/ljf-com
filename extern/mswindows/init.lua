@@ -41,53 +41,6 @@ function mswindows.guid(v)
     tonumber(d5, 16), tonumber(d6, 16), tonumber(d7, 16), tonumber(d8, 16)})
 end
 
--- wide strings
-ffi.cdef [[
-  int WideCharToMultiByte(
-    uint32_t codePage,
-    uint32_t flags,
-    const wchar_t* wide,
-    int wide_count,
-    char* out_multibyte,
-    int multibyte_count,
-    const char* defaultChar,
-    bool32* out_usedDefaultChar);
-  
-  int MultiByteToWideChar(
-    uint32_t codePage,
-    uint32_t flags,
-    const char* str,
-    int sizeBytes,
-    wchar_t* out_wstring,
-    int wstring_size);
-]]
-local function utf8_len(str)
-  local count = 0
-  for i = 1, #str do
-    if (bit.band(string.byte(str,i), 0xC0) ~= 0x80) then
-      count = count + 1
-    end
-  end
-  return count
-end
-function mswindows.wstring(utf8, len)
-  len = len or (utf8_len(utf8)+1)
-  local bufSize = ffi.C.MultiByteToWideChar(65001, 0, utf8, len, nil, 0)
-  local buf = ffi.new('wchar_t[?]', bufSize)
-  ffi.C.MultiByteToWideChar(65001, 0, utf8, len, buf, bufSize)
-  return buf, bufSize
-end
-function mswindows.utf8(ptr, len)
-  ptr = ffi.cast('const wchar_t*', ptr)
-  local bufSize = ffi.C.WideCharToMultiByte(65001, 0, ptr, len or -1, nil, 0, nil, nil)
-  if not len then
-    bufSize = bufSize - 1
-  end
-  local buf = ffi.new('char[?]', bufSize)
-  ffi.C.WideCharToMultiByte(65001, 0, ptr, len or -1, buf, bufSize, nil, nil)
-  return ffi.string(buf, bufSize)
-end
-
 mswindows.ole32 = ffi.load 'ole32'
 
 local module_meta = {
