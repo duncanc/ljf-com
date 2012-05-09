@@ -4,6 +4,7 @@ ljf-com
 Module for using Microsoft COM with LuaJIT FFI
 
 
+Here is an example definition for a pair of fictional COM interfaces:
 ```lua
 local com = require 'extern.mswindows.com'
 com.def {
@@ -28,4 +29,4 @@ com.def {
 }
 ```
 
-Note: The module extern.mswindows is only a minimal slice of a general-purpose Win32 binding library, to support extern.mswindows.com. It should not be taken too seriously in its own right.
+*Note:* The module extern.mswindows is only a minimal slice of a general-purpose Win32 binding library, to support extern.mswindows.com. It should not be taken too seriously in its own right.
