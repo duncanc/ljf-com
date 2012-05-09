@@ -10,7 +10,6 @@ local mswindows = {}
 -- miscellaneous things
 ffi.cdef [[
   typedef int bool32;
-  void* GetConsoleWindow();
   typedef struct RECT { int32_t left, top, right, bottom; } RECT;
 ]]
 

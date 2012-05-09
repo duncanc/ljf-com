@@ -1,4 +1,5 @@
 
+local ffi = require 'ffi'
 local mswin = require 'extern.mswindows'
 local com = require 'extern.mswindows.com'
 local taskbarlist = require 'extern.mswindows.taskbarlist'
@@ -9,7 +10,11 @@ if not w7taskbar then
   error 'demo requires Windows 7'
 end
 
-local hwnd= mswin.GetConsoleWindow()
+ffi.cdef [[
+  void* GetConsoleWindow();
+]]
+
+local hwnd = ffi.C.GetConsoleWindow()
 if hwnd == nil then
   error 'unable to get console window handle'
 end
